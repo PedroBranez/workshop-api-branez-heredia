@@ -3,117 +3,64 @@ using System.Collections.Generic;
 
 public class WorkshopLogic : IWorkshopLogic
 {
-    private List<Workshop> workshops = new List<Workshop>()
-    {
-        new Workshop {
-            WorkshopID = "Sesion-1",
-            WorkshopName = "Introducción Internal Apps",
-            WorkshopStatus = "Postponed"
-        },
-        new Workshop{
-            WorkshopID = "Sesion-2",
-            WorkshopName = "OOP",
-            WorkshopStatus = "Scheduled"
-        },
-        new Workshop{
-            WorkshopID = "Sesion-3",
-            WorkshopName = "Branching Model and Versioning (Part I)",
-            WorkshopStatus = "Scheduled"
-        }
-    };
+    private List<Workshop> workshopsInstance = new List<Workshop>()
 
-    /*private readonly IWorkshopTableDB _workshopTableDB;
+    private readonly IWorkshopTableDB _workshopTableDB;
 
     public WorkshopLogic(IWorkshopTableDB workshopTableDB)
     {
         _workshopTableDB = workshopTableDB;
-    }*/
+        workshopsInstance = GetWorkshops();
+    }
 
     public List<Workshop> GetWorkshops()
     {
-        //return _workshopTableDB.GetAll();
-        return workshops;
+        return _workshopTableDB.GetAll();
     }
 
     public Workshop AddNewWorkshop(Workshop workshop)
     {
-        
         Workshop newWorkshop = new Workshop
         {
             WorkshopID = generateId(),
             WorkshopName = workshop.WorkshopName,
             WorkshopStatus = workshop.WorkshopStatus
         };
-        workshops.Add(newWorkshop);
-        return newWorkshop;
-        //return _workshopTableDB.Create(workshop);
+        return _workshopTableDB.Create(workshop);
     }
 
     public Workshop UpdateWorkshop(Workshop workshop)
     {
-        Workshop updatedWorkshop = null;
-        for (int i = 0; i < workshops.Count; i++)
-        {
-            if (workshops[i].WorkshopID == workshop.WorkshopID)
-            {
-                workshops[i] = workshop;
-                updatedWorkshop = workshop;
-            }
-        }
-        return updatedWorkshop;
-        //return _workshopTableDB.Update(workshop);
+        return _workshopTableDB.Update(workshop);
     }
 
     public Workshop DeleteWorkshop(Workshop workshop)
     {
-        
-        Workshop deletedWorkshop = null;
-        for (int i = 0; i < workshops.Count; i++)
-        {
-            if (workshops[i].WorkshopID == workshop.WorkshopID)
-            {
-                workshop = workshops[i];
-                workshops.RemoveAt(i);
-            }
-        }
-        return deletedWorkshop;
-        //return _workshopTableDB.Delete(workshop);
+        return _workshopTableDB.Delete(workshop);
     }
 
     public Workshop DeleteWorkshopById(string id)
     {
-
-        Workshop deletedWorkshop = null;
-        for (int i = 0; i < workshops.Count; i++)
-        {
-            if (workshops[i].WorkshopID == id)
-            {
-                deletedWorkshop = workshops[i];
-                workshops.RemoveAt(i);
-            }
-        }
-        return deletedWorkshop;
-        //return _workshopTableDB.DeleteById(id);
+        return _workshopTableDB.DeleteById(id);
     }
 
     public Workshop UpdateWorkshopStatus(string id, string status)
     {
-        //return _workshopTableDB.UpdateStatus(id, status);
-        Workshop canceledWorkshop = null;
-        for (int i = 0; i < workshops.Count; i++)
+        Workshop updatedWorkshop = null;
+        for (int i = 0; i < workshopsInstance.Count; i++)
         {
-            if (workshops[i].WorkshopID == id)
+            if (workshopsInstance[i].WorkshopID == id)
             {
-                workshops[i].WorkshopStatus = status;
-                canceledWorkshop = workshops[i];
+                updatedWorkshop = workshopsInstance[i];
+                updatedWorkshop.WorkshopStatus = status;
             }
         }
-        return canceledWorkshop;
+        return _workshopTableDB.Update(updatedWorkshop);
     }
 
     private string generateId()
     {
-        Workshop lastWorkshop = workshops[workshops.Count - 1];
+        Workshop lastWorkshop = workshopsInstance[workshopsInstance.Count - 1];
         int nextCode = Int32.Parse(lastWorkshop.WorkshopID.Substring(7)) + 1;
         return "Sesion-" + nextCode;
     }
