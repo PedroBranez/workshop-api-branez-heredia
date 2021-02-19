@@ -29,6 +29,7 @@ namespace workshop_api
             services.AddControllers();
 
             services.AddTransient<IWorkshopLogic, WorkshopLogic>();
+            services.AddSingleton<IWorkshopTableDB, WorkshopTableDB>();
 
             //Imports SWAGGER
             services.AddSwaggerGen(p =>
