@@ -1,5 +1,4 @@
 ﻿using System;
-using Database.Database.Models;
 
 public interface IWorkshopTableDB
 {
@@ -8,3 +7,4 @@ public interface IWorkshopTableDB
     public void Update(WorkShop workshop); //Put
     public void Delete(WorkShop workshop); //Delete
 }
+
