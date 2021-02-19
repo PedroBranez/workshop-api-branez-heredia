@@ -27,8 +27,11 @@ namespace workshop_api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-			
-			//Imports SWAGGER
+
+            services.AddTransient<IWorkshopLogic, WorkshopLogic>();
+            services.AddSingleton<IWorkshopTableDB, WorkshopTableDB>();
+
+            //Imports SWAGGER
             services.AddSwaggerGen(p =>
             {
                 p.SwaggerDoc("v1", new OpenApiInfo { Title = "Example API", Version = "v1" });
