@@ -30,7 +30,7 @@ public class WorkshopTableDB : IWorkshopTableDB
         return workshop;
     }
 
-    public void Update(WorkShop workshop) //Updates all fields in a WorkShop except its id
+    public WorkShop Update(WorkShop workshop) //Updates all fields in a WorkShop except its id
     {
         foreach (WorkShop ws in DataBase)
         {
@@ -38,14 +38,32 @@ public class WorkshopTableDB : IWorkshopTableDB
             {
                 ws.WorkshopName = workshop.WorkshopName;
                 ws.WorkshopStatus = workshop.WorkshopStatus;
-                break;
+                return ws;
             }
         }
+        return null;
     }
 
-    public void Delete(WorkShop workshop) //Removes a WorkShop
+    public WorkShop Delete(WorkShop workshop) //Removes a WorkShop
     {
-        DataBase.Remove(workshop);
+        if (DataBase.Contains(workshop)) {
+            DataBase.Remove(workshop);
+            return workshop;
+        }
+        return null;
+    }
+
+    public WorkShop DeleteById(string id) //Removes a WorkShop
+    {
+        foreach (WorkShop ws in DataBase)
+        {
+            if (ws.WorkshopID == id)
+            {
+                DataBase.Remove(ws);
+                return ws;
+            }
+        }
+        return null;
     }
 
 }
