@@ -25,28 +25,29 @@ namespace workshop_api.Controllers
 			return 200;
 		}
 		[HttpGet]
-		[Route("workshops")]
+		[Route("")]
 		public ActionResult<List<Workshop>> GetWorkshops()
 		{
 			return _workshopLogic.GetWorkshops();
 		}
 
-		[HttpPut]
-		[Route("workshops/{code}")]
-		public ActionResult<Workshop> DeleteWorkshop(string code)
+		[HttpDelete]
+		[Route("{code}")]
+		public ActionResult<Workshop> DeleteWorkshop(string code, [FromBody] Workshop workshop)
 		{
 			return _workshopLogic.DeleteWorkshopById(code);
+			Console.WriteLine(workshop);
 		}
 
 		[HttpPut]
-		[Route("workshops/{code}/postpone")]
+		[Route("{code}/postpone")]
 		public ActionResult<Workshop> PostponeWorkshop(string code)
 		{
 			return _workshopLogic.UpdateWorkshopStatus(code, "Postponed");
 		}
 
 		[HttpPut]
-		[Route("workshops/{code}/cancel")]
+		[Route("{code}/cancel")]
 		public ActionResult<Workshop> CancelWorkshop(string code)
 		{
 			return _workshopLogic.UpdateWorkshopStatus(code, "Canceled");
