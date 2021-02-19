@@ -34,7 +34,7 @@ public class WorkshopTableDB : IWorkshopTableDB
     {
         foreach (Workshop ws in DataBase)
         {
-            if (ws == workshop)
+            if (ws.WorkshopID == workshop.WorkshopID)
             {
                 ws.WorkshopName = workshop.WorkshopName;
                 ws.WorkshopStatus = workshop.WorkshopStatus;
