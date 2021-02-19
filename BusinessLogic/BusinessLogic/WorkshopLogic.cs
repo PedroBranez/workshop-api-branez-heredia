@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class WorkshopLogic : IWorkshopLogic
 {
-    private List<Workshop> workshopsInstance = new List<Workshop>()
+    private List<Workshop> workshopsInstance = new List<Workshop>();
 
     private readonly IWorkshopTableDB _workshopTableDB;
 
@@ -26,7 +26,7 @@ public class WorkshopLogic : IWorkshopLogic
             WorkshopName = workshop.WorkshopName,
             WorkshopStatus = workshop.WorkshopStatus
         };
-        return _workshopTableDB.Create(workshop);
+        return _workshopTableDB.Create(newWorkshop);
     }
 
     public Workshop UpdateWorkshop(Workshop workshop)

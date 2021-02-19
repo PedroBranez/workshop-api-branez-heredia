@@ -3,36 +3,36 @@ using System.Collections.Generic;
 
 public class WorkshopTableDB : IWorkshopTableDB
 {
-    List<WorkShop> DataBase = new List<WorkShop>
+    List<Workshop> DataBase = new List<Workshop>
     {
-            new WorkShop() { WorkshopID = "Sesion-1", WorkshopName = "Introducción Internal Apps", WorkshopStatus = "Postponed" },
-            new WorkShop() { WorkshopID = "Sesion-2", WorkshopName = "OOP", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-3", WorkshopName = "Branching Model and Versioning (Part I)", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-4", WorkshopName = "Sesión 4 - APIs + miscroservices + Arq. Monolícas - (Part I)", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-5", WorkshopName = "Databases", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-6", WorkshopName = "GIT Dojo", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-7", WorkshopName = "IT", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-8", WorkshopName = "Soft Skills - Comunicaciones Efectivas", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-9", WorkshopName = "SoftSkills and Rules", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-10", WorkshopName = "API .NET Practice", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-11", WorkshopName = "Bases de Datos", WorkshopStatus = "Scheduled" },
-            new WorkShop() { WorkshopID = "Sesion-12", WorkshopName = "Calidad en Software Comercial", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-1", WorkshopName = "Introducción Internal Apps", WorkshopStatus = "Postponed" },
+            new Workshop() { WorkshopID = "Sesion-2", WorkshopName = "OOP", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-3", WorkshopName = "Branching Model and Versioning (Part I)", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-4", WorkshopName = "Sesión 4 - APIs + miscroservices + Arq. Monolícas - (Part I)", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-5", WorkshopName = "Databases", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-6", WorkshopName = "GIT Dojo", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-7", WorkshopName = "IT", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-8", WorkshopName = "Soft Skills - Comunicaciones Efectivas", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-9", WorkshopName = "SoftSkills and Rules", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-10", WorkshopName = "API .NET Practice", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-11", WorkshopName = "Bases de Datos", WorkshopStatus = "Scheduled" },
+            new Workshop() { WorkshopID = "Sesion-12", WorkshopName = "Calidad en Software Comercial", WorkshopStatus = "Scheduled" },
     };
 
-    public List<WorkShop> GetAll() //Read, returns all WorkShops
+    public List<Workshop> GetAll() //Read, returns all WorkShops
     {
         return DataBase;
     }
 
-    public WorkShop Create(WorkShop workshop) // Creates a New WorkShop 
+    public Workshop Create(Workshop workshop) // Creates a New Workshop 
     {
         DataBase.Add(workshop);
         return workshop;
     }
 
-    public WorkShop Update(WorkShop workshop) //Updates all fields in a WorkShop except its id
+    public Workshop Update(Workshop workshop) //Updates all fields in a Workshop except its id
     {
-        foreach (WorkShop ws in DataBase)
+        foreach (Workshop ws in DataBase)
         {
             if (ws == workshop)
             {
@@ -44,7 +44,7 @@ public class WorkshopTableDB : IWorkshopTableDB
         return null;
     }
 
-    public WorkShop Delete(WorkShop workshop) //Removes a WorkShop
+    public Workshop Delete(Workshop workshop) //Removes a Workshop
     {
         if (DataBase.Contains(workshop)) {
             DataBase.Remove(workshop);
@@ -53,9 +53,9 @@ public class WorkshopTableDB : IWorkshopTableDB
         return null;
     }
 
-    public WorkShop DeleteById(string id) //Removes a WorkShop
+    public Workshop DeleteById(string id) //Removes a Workshop
     {
-        foreach (WorkShop ws in DataBase)
+        foreach (Workshop ws in DataBase)
         {
             if (ws.WorkshopID == id)
             {
