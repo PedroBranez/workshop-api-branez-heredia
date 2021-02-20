@@ -60,6 +60,8 @@ public class WorkshopLogic : IWorkshopLogic
                 updatedWorkshop.WorkshopStatus = status;
             }
         }
+        if (updatedWorkshop == null) return null;
+
         return _workshopTableDB.Update(updatedWorkshop);
     }
 
