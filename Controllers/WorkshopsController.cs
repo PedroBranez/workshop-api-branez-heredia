@@ -11,12 +11,51 @@ namespace workshop_api.Controllers
 	[Route("workshops")]
 	public class WorkshopsController : ControllerBase
 	{
+		private readonly IWorkshopLogic _workshopLogic;
+		public WorkshopsController(IWorkshopLogic workshopLogic)
+        {
+			_workshopLogic = workshopLogic;
+        }
+
 		[HttpPost]
-		[Route("add-workshop")]
-		public int addWorkshop()
+		public Workshop addWorkshop([FromBody] Workshop ws)
 		{
-			// Empty
-			return 200;
+			Console.WriteLine("from post => " + ws.WorkshopID + " - " + ws.WorkshopName + " - " + ws.WorkshopStatus);
+			Workshop addedWorkshop = _workshopLogic.AddNewWorkshop(ws);
+			return addedWorkshop;
+		}
+		[HttpGet]
+		public ActionResult<List<Workshop>> GetWorkshops()
+		{
+			return _workshopLogic.GetWorkshops();
+		}
+
+		[HttpPut]
+		public Workshop updateWorkshop([FromBody] Workshop ws)
+		{
+			Workshop updatedWorkshop = _workshopLogic.UpdateWorkshop(ws);
+			return updatedWorkshop;
+		}
+
+		[HttpDelete]
+		[Route("{id}")]
+		public ActionResult<Workshop> DeleteWorkshop(string id)
+		{
+			return _workshopLogic.DeleteWorkshopById(id);
+		}
+
+		[HttpPut]
+		[Route("{id}/postpone")]
+		public ActionResult<Workshop> PostponeWorkshop(string id)
+		{
+			return _workshopLogic.UpdateWorkshopStatus(id, "Postponed");
+		}
+
+		[HttpPut]
+		[Route("{id}/cancel")]
+		public ActionResult<Workshop> CancelWorkshop(string id)
+		{
+			return _workshopLogic.UpdateWorkshopStatus(id, "Cancelled");
 		}
 	}
 }
