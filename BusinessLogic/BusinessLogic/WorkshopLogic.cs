@@ -24,6 +24,8 @@ public class WorkshopLogic : IWorkshopLogic
 
     public Workshop AddNewWorkshop(Workshop workshop)
     {
+        if (string.IsNullOrEmpty(workshop.WorkshopName)) return null;
+
         Workshop newWorkshop = new Workshop
         {
             WorkshopID = generateId(),
@@ -40,11 +42,6 @@ public class WorkshopLogic : IWorkshopLogic
             return _workshopTableDB.Update(workshop);
         }
         return null;
-    }
-
-    public Workshop DeleteWorkshop(Workshop workshop)
-    {
-        return _workshopTableDB.Delete(workshop);
     }
 
     public Workshop DeleteWorkshopById(string id)

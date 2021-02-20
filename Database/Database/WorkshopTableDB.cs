@@ -47,15 +47,6 @@ public class WorkshopTableDB : IWorkshopTableDB
         return null;
     }
 
-    public Workshop Delete(Workshop workshop) //Removes a Workshop
-    {
-        if (DataBase.Contains(workshop)) {
-            DataBase.Remove(workshop);
-            return workshop;
-        }
-        return null;
-    }
-
     public Workshop DeleteById(string id) //Removes a Workshop
     {
         foreach (Workshop ws in DataBase)
