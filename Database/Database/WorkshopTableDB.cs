@@ -36,7 +36,10 @@ public class WorkshopTableDB : IWorkshopTableDB
         {
             if (ws.WorkshopID == workshop.WorkshopID)
             {
-                ws.WorkshopName = workshop.WorkshopName;
+                if (string.IsNullOrEmpty(workshop.WorkshopName))
+                {
+                    ws.WorkshopName = workshop.WorkshopName;
+                }
                 ws.WorkshopStatus = workshop.WorkshopStatus;
                 return ws;
             }
