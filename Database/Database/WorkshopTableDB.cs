@@ -36,19 +36,13 @@ public class WorkshopTableDB : IWorkshopTableDB
         {
             if (ws.WorkshopID == workshop.WorkshopID)
             {
-                ws.WorkshopName = workshop.WorkshopName;
+                if (string.IsNullOrEmpty(workshop.WorkshopName))
+                {
+                    ws.WorkshopName = workshop.WorkshopName;
+                }
                 ws.WorkshopStatus = workshop.WorkshopStatus;
                 return ws;
             }
-        }
-        return null;
-    }
-
-    public Workshop Delete(Workshop workshop) //Removes a Workshop
-    {
-        if (DataBase.Contains(workshop)) {
-            DataBase.Remove(workshop);
-            return workshop;
         }
         return null;
     }

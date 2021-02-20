@@ -55,7 +55,7 @@ namespace workshop_api.Controllers
 		[Route("{id}/cancel")]
 		public ActionResult<Workshop> CancelWorkshop(string id)
 		{
-			return _workshopLogic.UpdateWorkshopStatus(id, "Canceled");
+			return _workshopLogic.UpdateWorkshopStatus(id, "Cancelled");
 		}
 	}
 }
