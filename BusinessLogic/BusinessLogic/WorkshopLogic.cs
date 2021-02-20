@@ -7,6 +7,10 @@ public class WorkshopLogic : IWorkshopLogic
 
     private readonly IWorkshopTableDB _workshopTableDB;
 
+    private List<string> ValidStatus = new List<string> { "Scheduled", "Postponed", "Cancelled" };
+
+    private string initialWorkshopStatus = "Scheduled";
+
     public WorkshopLogic(IWorkshopTableDB workshopTableDB)
     {
         _workshopTableDB = workshopTableDB;
@@ -24,14 +28,18 @@ public class WorkshopLogic : IWorkshopLogic
         {
             WorkshopID = generateId(),
             WorkshopName = workshop.WorkshopName,
-            WorkshopStatus = workshop.WorkshopStatus
+            WorkshopStatus = initialWorkshopStatus
         };
         return _workshopTableDB.Create(newWorkshop);
     }
 
     public Workshop UpdateWorkshop(Workshop workshop)
     {
-        return _workshopTableDB.Update(workshop);
+        if (ValidStatus.Contains(workshop.WorkshopStatus))
+        {
+            return _workshopTableDB.Update(workshop);
+        }
+        return null;
     }
 
     public Workshop DeleteWorkshop(Workshop workshop)
