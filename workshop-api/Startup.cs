@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using workshop_api.Extensions;
 
 namespace workshop_api
 {
@@ -45,6 +46,8 @@ namespace workshop_api
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseGlobalExceptionHandler();
 
             app.UseHttpsRedirection();
 

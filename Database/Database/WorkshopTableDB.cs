@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BusinessLogic.Exceptions;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class WorkshopTableDB : IWorkshopTableDB
 {
@@ -32,32 +34,31 @@ public class WorkshopTableDB : IWorkshopTableDB
 
     public Workshop Update(Workshop workshop) //Updates all fields in a Workshop except its id
     {
-        foreach (Workshop ws in DataBase)
+        Workshop workshopToUpdate = DataBase.FirstOrDefault(ws => workshop.WorkshopID == ws.WorkshopID);
+        if (workshopToUpdate != null)
         {
-            if (ws.WorkshopID == workshop.WorkshopID)
-            {
-                if (string.IsNullOrEmpty(workshop.WorkshopName))
-                {
-                    ws.WorkshopName = workshop.WorkshopName;
-                }
-                ws.WorkshopStatus = workshop.WorkshopStatus;
-                return ws;
-            }
+            workshopToUpdate.WorkshopName = workshopToUpdate.WorkshopName;
+            workshopToUpdate.WorkshopStatus = workshopToUpdate.WorkshopStatus;
+            return workshopToUpdate;
         }
-        return null;
+        else
+        {
+            throw new DatabaseException("Workshop Not found");
+        }
     }
 
     public Workshop DeleteById(string id) //Removes a Workshop
     {
-        foreach (Workshop ws in DataBase)
+        Workshop workshopToDelete = DataBase.FirstOrDefault(ws => id == ws.WorkshopID);
+        if (workshopToDelete != null)
         {
-            if (ws.WorkshopID == id)
-            {
-                DataBase.Remove(ws);
-                return ws;
-            }
+            DataBase.Remove(workshopToDelete);
+            return workshopToDelete;
         }
-        return null;
+        else
+        {
+            throw new DatabaseException("Workshop Not found");
+        }
     }
 
 }

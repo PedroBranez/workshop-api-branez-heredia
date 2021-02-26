@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessLogic.Exceptions;
+using System;
 using System.Collections.Generic;
 
 public class WorkshopLogic : IWorkshopLogic
@@ -9,7 +10,8 @@ public class WorkshopLogic : IWorkshopLogic
 
     private List<string> ValidStatus = new List<string> { "Scheduled", "Postponed", "Cancelled" };
 
-    private string initialWorkshopStatus = "Scheduled";
+    const string initialWorkshopStatus = "Scheduled";
+    const string idPrefix = "Sesion-";
 
     public WorkshopLogic(IWorkshopTableDB workshopTableDB)
     {
@@ -24,7 +26,8 @@ public class WorkshopLogic : IWorkshopLogic
 
     public Workshop AddNewWorkshop(Workshop workshop)
     {
-        if (string.IsNullOrEmpty(workshop.WorkshopName)) return null;
+        if (string.IsNullOrEmpty(workshop.WorkshopName))
+            throw new BusinessLogicException("Empty Name field");
 
         Workshop newWorkshop = new Workshop
         {
@@ -41,7 +44,7 @@ public class WorkshopLogic : IWorkshopLogic
         {
             return _workshopTableDB.Update(workshop);
         }
-        return null;
+        throw new BusinessLogicException("Empty status field");
     }
 
     public Workshop DeleteWorkshopById(string id)
@@ -60,7 +63,8 @@ public class WorkshopLogic : IWorkshopLogic
                 updatedWorkshop.WorkshopStatus = status;
             }
         }
-        if (updatedWorkshop == null) return null;
+        if (updatedWorkshop == null)
+            throw new BusinessLogicException("Workshop not found");
 
         return _workshopTableDB.Update(updatedWorkshop);
     }
@@ -69,6 +73,6 @@ public class WorkshopLogic : IWorkshopLogic
     {
         Workshop lastWorkshop = workshopsInstance[workshopsInstance.Count - 1];
         int nextCode = Int32.Parse(lastWorkshop.WorkshopID.Substring(7)) + 1;
-        return "Sesion-" + nextCode;
+        return idPrefix + nextCode;
     }
 }
