@@ -20,7 +20,6 @@ namespace workshop_api.Controllers
 		[HttpPost]
 		public Workshop addWorkshop([FromBody] Workshop ws)
 		{
-			Console.WriteLine("from post => " + ws.WorkshopID + " - " + ws.WorkshopName + " - " + ws.WorkshopStatus);
 			Workshop addedWorkshop = _workshopLogic.AddNewWorkshop(ws);
 			return addedWorkshop;
 		}
