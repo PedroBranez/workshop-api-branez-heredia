@@ -44,7 +44,7 @@ public class WorkshopLogic : IWorkshopLogic
         {
             return _workshopTableDB.Update(workshop);
         }
-        throw new BusinessLogicException("Empty status field");
+        throw new BusinessLogicException("Empty or invalid status field");
     }
 
     public Workshop DeleteWorkshopById(string id)

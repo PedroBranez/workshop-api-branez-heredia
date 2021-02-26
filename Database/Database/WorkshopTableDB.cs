@@ -37,8 +37,8 @@ public class WorkshopTableDB : IWorkshopTableDB
         Workshop workshopToUpdate = DataBase.FirstOrDefault(ws => workshop.WorkshopID == ws.WorkshopID);
         if (workshopToUpdate != null)
         {
-            workshopToUpdate.WorkshopName = workshopToUpdate.WorkshopName;
-            workshopToUpdate.WorkshopStatus = workshopToUpdate.WorkshopStatus;
+            workshopToUpdate.WorkshopName = workshop.WorkshopName;
+            workshopToUpdate.WorkshopStatus = workshop.WorkshopStatus;
             return workshopToUpdate;
         }
         else
