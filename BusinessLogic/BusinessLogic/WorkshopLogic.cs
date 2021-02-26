@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class WorkshopLogic : IWorkshopLogic
 {
-    private List<Workshop> workshopsInstance = new List<Workshop>();
+    private List<WorkshopDTO> workshopsInstance = new List<WorkshopDTO>();
 
     private readonly IWorkshopTableDB _workshopTableDB;
 
@@ -19,42 +19,52 @@ public class WorkshopLogic : IWorkshopLogic
         workshopsInstance = GetWorkshops();
     }
 
-    public List<Workshop> GetWorkshops()
+    public List<WorkshopDTO> GetWorkshops()
     {
-        return _workshopTableDB.GetAll();
+        List<WorkshopDTO> dtoData = new List<WorkshopDTO>();
+        List<Workshop> dbData = _workshopTableDB.GetAll();
+        foreach (Workshop ws in dbData)
+        {
+            dtoData.Add(ConvDBtoDTO(ws));
+        }
+        return dtoData;
     }
 
-    public Workshop AddNewWorkshop(Workshop workshop)
+    public WorkshopDTO AddNewWorkshop(WorkshopDTO workshop)
     {
         if (string.IsNullOrEmpty(workshop.WorkshopName))
             throw new BusinessLogicException("Empty Name field");
 
-        Workshop newWorkshop = new Workshop
+        WorkshopDTO newWorkshop = new WorkshopDTO
         {
             WorkshopID = generateId(),
             WorkshopName = workshop.WorkshopName,
             WorkshopStatus = initialWorkshopStatus
         };
-        return _workshopTableDB.Create(newWorkshop);
+        Workshop newWorkShopDB = _workshopTableDB.Create(ConvDTOtoDB(newWorkshop));
+        return ConvDBtoDTO(newWorkShopDB);
     }
 
-    public Workshop UpdateWorkshop(Workshop workshop)
+    public WorkshopDTO UpdateWorkshop(WorkshopDTO workshop)
     {
         if (ValidStatus.Contains(workshop.WorkshopStatus))
         {
-            return _workshopTableDB.Update(workshop);
+            Workshop updatedWorkShopDB = _workshopTableDB.Update(ConvDTOtoDB(workshop));
+            Console.WriteLine(updatedWorkShopDB.WorkshopStatus);
+            return ConvDBtoDTO(updatedWorkShopDB);
         }
         throw new BusinessLogicException("Empty or invalid status field");
     }
 
-    public Workshop DeleteWorkshopById(string id)
+    public WorkshopDTO DeleteWorkshopById(string id)
     {
-        return _workshopTableDB.DeleteById(id);
+        Workshop deletedWorkShopDB = _workshopTableDB.DeleteById(id);
+        return ConvDBtoDTO(deletedWorkShopDB);
     }
 
-    public Workshop UpdateWorkshopStatus(string id, string status)
+    public WorkshopDTO UpdateWorkshopStatus(string id, string status)
     {
-        Workshop updatedWorkshop = null;
+        WorkshopDTO updatedWorkshop = null;
         for (int i = 0; i < workshopsInstance.Count; i++)
         {
             if (workshopsInstance[i].WorkshopID == id)
@@ -66,13 +76,33 @@ public class WorkshopLogic : IWorkshopLogic
         if (updatedWorkshop == null)
             throw new BusinessLogicException("Workshop not found");
 
-        return _workshopTableDB.Update(updatedWorkshop);
+        Workshop statusUpdatesWorkShopDB = _workshopTableDB.Update(ConvDTOtoDB(updatedWorkshop));
+        return ConvDBtoDTO(statusUpdatesWorkShopDB);
     }
 
     private string generateId()
     {
-        Workshop lastWorkshop = workshopsInstance[workshopsInstance.Count - 1];
+        WorkshopDTO lastWorkshop = workshopsInstance[workshopsInstance.Count - 1];
         int nextCode = Int32.Parse(lastWorkshop.WorkshopID.Substring(7)) + 1;
         return idPrefix + nextCode;
+    }
+
+    public Workshop ConvDTOtoDB(WorkshopDTO old)
+    {
+        Workshop valid = new Workshop();
+        valid.WorkshopID = old.WorkshopID;
+        valid.WorkshopName = old.WorkshopName;
+        valid.WorkshopStatus = old.WorkshopStatus;
+        return valid;
+    }
+
+    public WorkshopDTO ConvDBtoDTO(Workshop old)
+    {
+        WorkshopDTO valid = new WorkshopDTO();
+
+        valid.WorkshopID = old.WorkshopID;
+        valid.WorkshopName = old.WorkshopName;
+        valid.WorkshopStatus = old.WorkshopStatus;
+        return valid;
     }
 }
